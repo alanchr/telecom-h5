@@ -1,14 +1,10 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite/config'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import { VantResolver } from '@vant/auto-import-resolver'
 import { fileURLToPath, URL } from 'node:url'
 import pxToViewport from 'postcss-px-to-viewport'
 
-/**
- * Vite配置
- * 配置Vue插件、Vant按需引入、路径别名、移动端px转vw适配
- */
 export default defineConfig({
   plugins: [
     vue(),
