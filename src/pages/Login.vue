@@ -32,12 +32,12 @@ async function handleLogin() {
     const userInfo = await login()
     store.setLoginInfo(userInfo)
     closeToast()
-    showToast({ message: '登录成功', type: 'success' })
+    showToast({ message: '登录成功', type: 'success', fontSize: '32px' })
     router.push('/auth')
   } catch (err) {
     closeToast()
     const msg = err instanceof Error ? err.message : '登录失败，请重试'
-    showToast({ message: msg, type: 'fail' })
+    showToast({ message: msg, type: 'fail', fontSize: '32px' })
   } finally {
     loading.value = false
   }

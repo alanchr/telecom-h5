@@ -79,12 +79,12 @@ async function handleSubmit() {
     store.setSelectedPlan(selectedPlan.value)
     store.setOrderId(orderId)
     closeToast()
-    showToast({ message: '提交成功', type: 'success' })
+    showToast({ message: '提交成功', type: 'success', fontSize: '32px' })
     router.push('/result')
   } catch (err) {
     closeToast()
     const msg = err instanceof Error ? err.message : '提交失败'
-    showToast({ message: msg, type: 'fail' })
+    showToast({ message: msg, type: 'fail', fontSize: '32px' })
   } finally {
     loading.value = false
   }

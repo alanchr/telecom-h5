@@ -25,7 +25,7 @@ export default defineConfig({
           viewportWidth: 750,
           unitPrecision: 5,
           viewportUnit: 'vw',
-          selectorBlackList: ['.ignore-viewport'],
+          selectorBlackList: ['.ignore-viewport', '.van-toast'],
           minPixelValue: 1,
           mediaQuery: false
         })

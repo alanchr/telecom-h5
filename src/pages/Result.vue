@@ -87,7 +87,7 @@ async function fetchCredit() {
     store.setCreditResult(res)
   } catch (err) {
     const msg = err instanceof Error ? err.message : '测评查询失败'
-    showToast({ message: msg, type: 'fail' })
+    showToast({ message: msg, type: 'fail', fontSize: '32px' })
   } finally {
     loading.value = false
   }

@@ -10,13 +10,7 @@ import { useAppStore } from '@/stores/app'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/scan'
-  },
-  {
-    path: '/scan',
-    name: 'Scan',
-    component: () => import('@/pages/Scan.vue'),
-    meta: { title: '扫码' }
+    redirect: '/login'
   },
   {
     path: '/login',
@@ -56,43 +50,28 @@ const router = createRouter({
 router.beforeEach((to, _from) => {
   const store = useAppStore()
 
-  // 未扫码时只能访问扫码页
-  if (!store.isQrCodeScanned && to.name !== 'Scan') {
-    return { name: 'Scan' }
-  }
-
-  // 未登录时只能访问登录页或扫码页
-  if (!store.isLoggedIn && to.name !== 'Login' && to.name !== 'Scan') {
+  // 未登录时只能访问登录页
+  if (!store.isLoggedIn && to.name !== 'Login') {
     return { name: 'Login' }
   }
 
-  // 已登录但未授权，只能访问授权页、登录页或扫码页
-  if (store.isLoggedIn && !store.isAuthorized && to.name !== 'Auth' && to.name !== 'Login' && to.name !== 'Scan') {
+  // 已登录但未授权，只能访问授权页或登录页
+  if (store.isLoggedIn && !store.isAuthorized && to.name !== 'Auth' && to.name !== 'Login') {
     return { name: 'Auth' }
   }
 
   // 已授权但手机号未验证，只能访问授权页
-  if (store.isAuthorized && !store.isPhoneVerified && to.name !== 'Auth' && to.name !== 'Login' && to.name !== 'Scan') {
+  if (store.isAuthorized && !store.isPhoneVerified && to.name !== 'Auth' && to.name !== 'Login') {
     return { name: 'Auth' }
   }
 
   // 手机号已验证但未选套餐，只能访问套餐页或授权页
-  if (store.isPhoneVerified && !store.selectedPlan && to.name !== 'Plan' && to.name !== 'Auth' && to.name !== 'Login' && to.name !== 'Scan') {
+  if (store.isPhoneVerified && !store.selectedPlan && to.name !== 'Plan' && to.name !== 'Auth' && to.name !== 'Login') {
     return { name: 'Plan' }
   }
 
   // 已选套餐但未获取测评结果，只能访问结果页
-  if (store.selectedPlan && !store.creditResult && to.name !== 'Result' && to.name !== 'Plan' && to.name !== 'Auth' && to.name !== 'Login' && to.name !== 'Scan') {
-    return { name: 'Result' }
-  }
-
-  // 已扫码用户访问扫码页时，重定向到当前流程位置
-  if (store.isQrCodeScanned && to.name === 'Scan') {
-    if (!store.isLoggedIn) return { name: 'Login' }
-    if (!store.isAuthorized) return { name: 'Auth' }
-    if (!store.isPhoneVerified) return { name: 'Auth' }
-    if (!store.selectedPlan) return { name: 'Plan' }
-    if (!store.creditResult) return { name: 'Result' }
+  if (store.selectedPlan && !store.creditResult && to.name !== 'Result' && to.name !== 'Plan' && to.name !== 'Auth' && to.name !== 'Login') {
     return { name: 'Result' }
   }
 

@@ -7,10 +7,6 @@ import type { UserInfo, AuthInfo, PlanItem, CreditResult } from '@/types'
  * 管理登录信息、授权状态、营业员验证、套餐选择、测评结果
  */
 export const useAppStore = defineStore('app', () => {
-  // === 扫码状态 ===
-  /** 是否已扫码 */
-  const isQrCodeScanned = ref(false)
-
   // === 登录状态 ===
   /** 是否已登录 */
   const isLoggedIn = ref(false)
@@ -38,13 +34,6 @@ export const useAppStore = defineStore('app', () => {
   // === 测评结果 ===
   /** 测评结果 */
   const creditResult = ref<CreditResult | null>(null)
-
-  /**
-   * 标记已扫码
-   */
-  function setQrCodeScanned() {
-    isQrCodeScanned.value = true
-  }
 
   /**
    * 设置登录信息
@@ -107,7 +96,6 @@ export const useAppStore = defineStore('app', () => {
    * 重置所有状态（重新申请时调用）
    */
   function resetAll() {
-    isQrCodeScanned.value = false
     isLoggedIn.value = false
     userInfo.value = null
     isAuthorized.value = false
@@ -121,7 +109,6 @@ export const useAppStore = defineStore('app', () => {
 
   return {
     // 状态
-    isQrCodeScanned,
     isLoggedIn,
     userInfo,
     isAuthorized,
@@ -132,7 +119,6 @@ export const useAppStore = defineStore('app', () => {
     orderId,
     creditResult,
     // 方法
-    setQrCodeScanned,
     setLoginInfo,
     setAuthInfo,
     setClerkPhone,

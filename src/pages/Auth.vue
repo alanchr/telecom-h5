@@ -63,14 +63,22 @@ async function handleAuth() {
     const info = await authIdentity()
     store.setAuthInfo(info)
     closeToast()
-    showToast({ message: '授权成功', type: 'success' })
+    showToast({ message: '授权成功', type: 'success', fontSize: '32px' })
   } catch (err) {
     closeToast()
     const msg = err instanceof Error ? err.message : '授权失败'
-    showToast({ message: msg, type: 'fail' })
+    showToast({ message: msg, type: 'fail', fontSize: '32px' })
   } finally {
     authLoading.value = false
   }
+}
+
+/**
+ * 填写验证码（演示用）
+ */
+function fillSmsCode() {
+  smsCode.value = '123456'
+  showToast({ message: '已填写验证码', type: 'success', fontSize: '32px' })
 }
 
 /**
@@ -84,10 +92,10 @@ async function handleSendCode() {
     await sendSms(phone.value)
     store.setClerkPhone(phone.value)
     start()
-    showToast({ message: '验证码已发送（123456）', type: 'success' })
+    showToast({ message: '验证码已发送（123456）', type: 'success', fontSize: '32px' })
   } catch (err) {
     const msg = err instanceof Error ? err.message : '发送失败'
-    showToast({ message: msg, type: 'fail' })
+    showToast({ message: msg, type: 'fail', fontSize: '32px' })
   } finally {
     sendLoading.value = false
   }
@@ -106,16 +114,16 @@ async function handleSubmit() {
     if (valid) {
       store.setPhoneVerified()
       closeToast()
-      showToast({ message: '验证通过', type: 'success' })
+      showToast({ message: '验证通过', type: 'success', fontSize: '32px' })
       router.push('/plan')
     } else {
       closeToast()
-      showToast({ message: '验证码错误', type: 'fail' })
+      showToast({ message: '验证码错误', type: 'fail', fontSize: '32px' })
     }
   } catch (err) {
     closeToast()
     const msg = err instanceof Error ? err.message : '验证失败'
-    showToast({ message: msg, type: 'fail' })
+    showToast({ message: msg, type: 'fail', fontSize: '32px' })
   } finally {
     verifyLoading.value = false
   }
@@ -236,6 +244,7 @@ async function handleSubmit() {
           <div class="form-hint">
             <span class="hint-dot"></span>
             <span>验证码为：123456</span>
+            <button class="fill-btn" @click="fillSmsCode">填写</button>
           </div>
         </div>
       </div>
@@ -616,7 +625,7 @@ async function handleSubmit() {
 .form-hint {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
   margin-top: var(--spacing-md);
   padding-top: var(--spacing-md);
   border-top: 1px dashed var(--color-border-light);
@@ -629,9 +638,25 @@ async function handleSubmit() {
   background: var(--color-warning);
 }
 
-.form-hint span:last-child {
+.form-hint span:last-of-type {
   font-size: 22px;
   color: var(--color-text-tertiary);
+}
+
+.fill-btn {
+  white-space: nowrap;
+  font-size: 26px;
+  color: var(--color-primary);
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, rgba(22,119,255,0.1) 100%);
+  transition: all var(--transition-normal);
+}
+
+.fill-btn:active {
+  transform: scale(0.96);
+  opacity: 0.8;
 }
 
 /* 底部固定按钮 */
